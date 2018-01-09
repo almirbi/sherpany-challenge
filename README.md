@@ -11,8 +11,9 @@
 # Features
 
 1. **Add** new item to agenda
-2. **Drag and drop** documents to the drop area
+2. **Open animated card**
 3. **Automatic sort** of documents to agenda items based on requirements (leading numbers, same text)
+4. **Drag and drop** of documents inside of the sorter in order to modify if necessary
 
 ## [DEMO](https://sherpany-challenge.firebaseapp.com/)
 
