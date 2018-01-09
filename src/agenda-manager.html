@@ -1,0 +1,30 @@
+<link rel="import" href="../agenda-manager-html-element.html">
+
+<link rel="import" href="agenda-manager-tabs.html">
+
+<template id="agenda-manager">
+	<div class="main">
+		<div class="main__header">
+			<h1>GSMM KW 6</h1>
+		</div>
+
+		<agenda-manager-tabs></agenda-manager-tabs>
+	</div>
+</template>
+<script>
+	(function () {
+		const wcElementName = "agenda-manager", { thisDoc, thatDoc, template } = window.getTemplate(window, document, wcElementName);
+		class AgendaManager extends AgendaManagerHTMLElement {
+			constructor() {
+				super();
+
+				this.importTemplate(thisDoc, template, wcElementName);
+
+			}
+		}
+
+		window.customElementsFreezeDefine(wcElementName, AgendaManager);
+
+	})();
+
+</script>

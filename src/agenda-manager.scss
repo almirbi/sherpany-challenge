@@ -1,0 +1,27 @@
+@import "variables";
+
+.title {
+	color: $primary-emerald;
+}
+
+.main {
+	font-family: $font-family-roman;
+
+	&__header {
+		padding: 10px 30px;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-family: $font-family-roman;
+		font-weight: 200;
+		font-size: 18px;
+		color: $dark;
+	}
+
+	agenda-manager-tabs {
+		margin-top: 30px;
+	}
+}

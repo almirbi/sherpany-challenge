@@ -1,0 +1,49 @@
+@import "variables";
+
+.toolbar {
+	height: $toolbar-height;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 30px;
+
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: white;
+	border-top: 1px solid $silver;
+	box-sizing: border-box;
+
+	&__button {
+		display: flex;
+
+		button {
+			border-radius: $border-radius-default;
+			background: $blue;
+			color: white;
+			height: 35px;
+			font-size: 18px;
+			padding: 0 30px;
+			align-self: center;
+			font-family: $font-family-md;
+			cursor: pointer;
+			outline: 0;
+		}
+	}
+
+	.icon_buttons {
+		display: flex;
+		align-content: center;
+
+		&__section {
+			display: flex;
+			align-self: center;
+			border-left: 1px solid $silver;
+		}
+
+		&__button {
+			display: flex;
+			cursor: pointer;
+			margin: 0 10px;
+		}
+	}
+}

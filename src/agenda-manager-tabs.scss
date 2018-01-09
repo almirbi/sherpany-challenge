@@ -1,0 +1,42 @@
+@import "variables";
+:host {
+	display: block;
+}
+
+.navigation {
+	padding-left: 30px;
+	height: 45px;
+	display: flex;
+
+	.tab {
+		width: 155px;
+		height: inherit;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+
+		&--active {
+			border-bottom: 1px solid $blue;
+
+			.tab__text {
+				color: $dark;
+			}
+		}
+
+		&__content {
+			display: none;
+
+			&--active {
+				display: block;
+			}
+		}
+
+		&__text {
+			color: $dark-medium;
+			font-size: 18px;
+			font-weight: 200;
+			font-family: $font-family-roman;
+		}
+	}
+}

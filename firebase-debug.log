@@ -1,0 +1,23 @@
+[debug] [2018-01-09T23:23:05.692Z] ----------------------------------------------------------------------
+[debug] [2018-01-09T23:23:05.694Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-01-09T23:23:05.694Z] CLI Version:   3.15.2
+[debug] [2018-01-09T23:23:05.694Z] Platform:      darwin
+[debug] [2018-01-09T23:23:05.694Z] Node Version:  v8.5.0
+[debug] [2018-01-09T23:23:05.695Z] Time:          Wed Jan 10 2018 00:23:05 GMT+0100 (CET)
+[debug] [2018-01-09T23:23:05.695Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-01-09T23:23:05.707Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-01-09T23:23:05.707Z] > authorizing via signed-in user
+[debug] [2018-01-09T23:23:05.709Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/sherpany-challenge  
+ Wed Jan 10 2018 00:23:05 GMT+0100 (CET)
+[debug] [2018-01-09T23:23:06.680Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-09T23:23:06.681Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/sherpany-challenge/tokens  
+ Wed Jan 10 2018 00:23:06 GMT+0100 (CET)
+[debug] [2018-01-09T23:23:07.392Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'sherpany-challenge'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing . directory for upload...
+[debug] [2018-01-09T23:23:47.447Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/sherpany-challenge/uploads/-L2SE-j0abpRy6VsPls1?fileCount=101166&message=  
+ Wed Jan 10 2018 00:23:47 GMT+0100 (CET)

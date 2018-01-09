@@ -1,0 +1,63 @@
+<link rel="import" href="../agenda-manager-html-element.html">
+
+<link rel="import" href="agenda-manager-list.html">
+<link rel="import" href="agenda-manager-document-sorter.html">
+<link rel="import" href="agenda-manager-toolbar.html">
+
+<template id="agenda-manager-tabs">
+	<div class="navigation__wrapper">
+		<div class="navigation">
+			<div data-content="detailsTabContent" class="navigation__tab tab">
+				<div class="tab__text">Details</div>
+			</div>
+			<div data-content="agendaTabContent" class="navigation__tab tab tab--active">
+				<div class="tab__text">Agenda</div>
+			</div>
+		</div>
+		<div class="content">
+			<div style="display: none" id="detailsTabContent"></div>
+			<div style="display: block" id="agendaTabContent">
+				<agenda-manager-list></agenda-manager-list>
+				<agenda-manager-document-sorter open="false"></agenda-manager-document-sorter>
+				<agenda-manager-toolbar></agenda-manager-toolbar>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	(function () {
+		const wcElementName = "agenda-manager-tabs", { thisDoc, thatDoc, template } = window.getTemplate(window, document, wcElementName);
+
+		class AgendaManagerTabs extends AgendaManagerHTMLElement {
+			constructor() {
+				super();
+				this.importTemplate(thisDoc, template, wcElementName);
+
+				this.setupTabs();
+			}
+
+			setupTabs() {
+				// Data binding done VanillaJS style B-|
+				let list = this._shadowRoot.querySelector("agenda-manager-list"),
+					documentSorter = this._shadowRoot.querySelector("agenda-manager-document-sorter"),
+					toolbar = this._shadowRoot.querySelector("agenda-manager-toolbar");
+
+				documentSorter.agenda = list.agenda;
+				list.addEventListener("agenda-item-added", () => {
+					documentSorter.agenda = list.agenda;
+					documentSorter.autoSort();
+				});
+
+				toolbar.addEventListener('add-clicked', (event) => {
+					documentSorter.setAttribute("open", "true");
+					documentSorter.autoSort();
+					console.log("Element: ", event.target.offsetTop);
+					console.log("Element: ", event.target.offsetLeft);
+				});
+			}
+		}
+
+		window.customElements.define(wcElementName, AgendaManagerTabs);
+	})();
+</script>

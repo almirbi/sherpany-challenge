@@ -1,0 +1,56 @@
+<link rel="import" href="../agenda-manager-html-element.html">
+
+<template id="agenda-manager-toolbar">
+    <div class="toolbar">
+        <div class="toolbar__button">
+            <button type="button">Publish</button>
+        </div>
+        <div class="toolbar__icon_buttons icon_buttons">
+            <div class="icon_buttons__section">
+                <div class="icon_buttons__button">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAtCAIAAABauh7zAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkUBxgXxyDLJQAAAyNJREFUWMPtmNtvG0UUh78zsxuv7TbBTus4QSmtBA8UGorgBf7/ByQiWqlCpQJSVY3jhiTE13i9lxkeMs02xdd0t8lDz9NqtZr59tzm/EastVy3KW6AfYK4URDe3C9iQ5JeZWkRShqRPCD+PuFwSNljqSoSGET8sMVakAcE8GWdz1dZqpZF2G0t5IZFIeTtukuZhTBhRQOsaJR8GMTVrOrz8l+AXsT3m9ypXAfEw4Z7eNpGPjwc79k4wVNohbXMWF5yLNGsVlNSC/DskMdN9jv8M5zcZyxoxTcNlxB5QijF0wMEdjbwNakhSadmq2WJaloCQgvfNlCKkga4X+OLz2Z+rwqAAMr+O46RZcKe+9nRHzNOPu7ZcWFRyjACeNXhuyZ/ntDqTW1BWvHjFiWvgJzYO0ULDxuI4CkCb2pi6mWCtQyEYmcDrdzfP6jxoPbRwwH4miLsKh2zE1L28cT1rhnEkjvEWcxZjBJaXR41eX7Eqy560j7W4il+vkeQe2JWfF4c4yseNQFqZWT6+a6ksGa108w83LxF89Z15IReLMhhQpRS0q5PzJ2G8pwnjOWvE9p9wgQRLChhe5VRPIcjN4hOyO+HjBJELlXyfg8LnRH1csEQ/TFP2hjj+pgbdiwi7s3eKb5me60wCAvPj0jfIdhe406VUcwfxy6RlfDimHqZ6koxCux1h+44O8ks1CvUyzSq5+7IbO+0MBnYHmSraKHiu7+3UPZYUZkS6YaTZ4AcIHpjl/wWPM3jTdYrTmv8dI/Ad84QGKfEphgIY7LxOoz5dZ9RDJBadlt0w6y/pYa0IAhPX1J/iWH3gEHEszd0wktTj1aTe/lCELNbTT3IBmtjsRDG/PKao6F7c5GwgZ4sAhYq0VaPQTRZlcvbjc8ftm5TOtfvF7rI0uqRWoxlvXJViM3b9MczNecqiaEfAQTe+8e3BRGMIfD4an2Kp3O5vRtE/HZAlLpd/+8tEXY2uFstEuJ85HnSZhi5Ede1KUtqqfp8fZf6dFUu+d5jHvR50+csJjYoIfBoVLlfmzPnSe6XqdYSG4xFcOJ9fvV9utG9SRD/AfWZEqdBQaiuAAAAAElFTkSuQmCC"
+                        alt="Download">
+                </div>
+                <div class="icon_buttons__button">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAIAAAC1eHXNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkUBxcw5bJigQAAAoNJREFUWMPtmMtvE0EMhz/PTna3ryQFWoWWol4AqRKV4MT/f+bAS4UDVRHqM6FNm2SXZB9jDo0qNVLSNI8SRHweab6xf/bYFlVlBswwGzbnmE0OO/zRdoYbVdNGCO14HJnjW43UsexjZESOi5jdCoEdg+PTKcWAl2VGYxDBGrJ8vLg0E67aRCknrVEgVFn2ebuBjqsPxbfsrBFY7lvwjFCNOG5MSKcCi4VBoR1ggXfznEnkrf4/9eOhOHQ2OHQel5nkmJW4yNwfc53+C3H5u/VUhs4ZO/G7mx0aHXKHb4lTZLg2bpIcRw0O6kQp5vr1CkLBdFsheQAOp3w+oxYhYAW9ZhCM4JS9GoF9EI69KtUWxqBKOeTRIgVDlHDawilG6GQcNdhenaZOaxHHTTyDwM4626tECb9irIfvdX1jhP06V+2p+UOVgzqekCsvHpNkfDnDCALncXdoMNDJAX5e8royHX/EKXEKsGAp+uzXsQYjXXGoslnk3XM2iwDVeGpxSXOSHGDJp5mQu97qVQ7pZFQjRHDadczkOW7uTXLKIeXwVuX0hA8nZI40R0AgnRJHwWANTtkqUgrxvd4Sbm/f0G/aHlengSW0xCk/LqlGNDq3CpZTSmF3uFUIbS/W/fzh9T/le2ysAPzOOI9JHUbIldyROYoBr57w/QIBp1SWx8jbdsb7w/4bByF3OMUKCE7ZWcf3aGf4Hp7ha5VWgkBoeVbq/yMO3hemObX47gk7d+xf4BQRFFZ8fI/M0UxwrvvX7FZYWxqVY3i7avPxlHbW6zlVPMObp6wuDOwQJrs/PWtx2CDJSB2esBJQXmCrdHe/LhPf4ypkDucwQsEbumOa75NnkuMPkXkFkjuq6ogAAAAASUVORK5CYII="
+                        alt="Reload">
+                </div>
+            </div>
+            <div class="icon_buttons__section">
+                <div class="icon_buttons__button">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAIAAAC1eHXNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkUBxgz+yMv9AAAAv5JREFUWMPtmFlIVFEYx39nZm5zx1xyGbI0tMLC9hDLUnsKihbbsEXJggJ9yuolIoiCHiKIIIoIKilES6O0p14MSqGFFs16aSHayMrSKUenGe89Pdg20zibk/Rw/5yncw6H3znn2/iElJL/QCb+DxkcBofBYXAYHNGRJfByj5u6u7g86BKPFo17CxQz/Tr548nJDJnD6eH4A+472JjF2ml4NPRI06IAi5kPTvY2887FWTUcDiTZiewq5MB1VkxmzYwhPYbTzboayiaRHOd7H1/76OrjZTevHLz5wkBFoEuWZFNbTGUTh65FDvHiM/NOkjOGg8tIjQ3GcaKFzKNkHKPwNB09mAQS3P1MTaWtnObXlNXi1sOGaHpKbhU789i/CEDTg/mL1UKSSoaKfQQm8etzAJJjqC/FPpIN1bx1hAFR10rlVS6vZHNuyH6rmLErjFKIU/zsVi0cLmJOGqX1POsMCeLUTXbfoGEDhRMDG+Jf0n8OKWXHV7m+Wnb2+u5pfCg5KFvfyADSpNzZIBefkd19vktVd+TpFq8Zk18HGxgBVDSd9k2svMilNv8bHC6WVhFvpaGMBDWcOOb0cLwZVz8CJKgKFfMRg+NMS6VpI9uu8NpB5QKvpVddlDdSlEVFQZD7+OH4plH9iHcuFIFHMtZGWS7mgMdMSKJmPRWX2HGFI0U/Jh93sPYi+woonhVZfpHokv6fI8S4Ga9SU0JKDKvO8amXpicsv0BdcXgQXu9hU9ieh1v74aiqhbgROD0hnbJnITX3WF1NvJXbW7DHDiHP2Sxsnesnz4WokhyyR5OZTKIt0nyr6Xzs9TVJk8AeE95Zs9OHlvfff2HmKdKtv2d1SZLK+dLfIXU46g8p6XST8IfJahKrGSQMJ4cuoY/n3uleE+hyeN8jLZGuPb72ISDeyvueYeQwCUYNHnqFCBLNIqsO9bDq0wHXbe8g0Ua0GiWKmRfdjLOFw2G1MCWFM7ei/xH53gFXBO0Haf+mXyTwcgJh9KUMDoPD4DA4oqLvZTBdduslJPQAAAAASUVORK5CYII="
+                        alt="Send by Email">
+                </div>
+                <div class="icon_buttons__button">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAIAAAC1eHXNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkUBxkHw4zqAAAAAndJREFUWMPtmDtsEzEYx3+27y5JS5RWVEE8ChJVETBQFhhoJTYQA1sHWBhADCxIMCBViIWBiZEJiQEWxGNhYKh4igWG0qGwVFSVKBXpUEhUlTbJ5WwGCslF5HINubRF+TbLd/bP9v972MIYwzowyfqwNkebo80BvJ/l2SSeWWuOe+NcGaXgrTVHzCJpIzaKPqxaHSWNDhHxHRVuHtEox5kHzC0RkHw02JJHp+lOBE2gBFJgy0Y57s/y6SypOMF5sCvua85keTuN9XtWWzH1jUWXx+M4amUobdie4khfOI4uxZZNJGOrO+apeU49p9cpq88CDCNv+OMxCx4X9oTmMNBARXBoJ5PnkKLsLDdeMpHh9jBxxa/xjKHTCX0ujVkyVr2FqRiWpL8HRzakj0oretx8zXQWJXwONbCNi4N1/tVgDJ6uEyJCcWiY+MqLDImKsRY9lIo+flR/J+lUxPxrskT9H40hjMwij6dxm4RTP643QafasOz+xd3iFpbk8hAFj5gVPcdMlvNPKJTK7grkXG4dZ2g33R1N1UeAlTQzCxT9HNMFiqUIdBqcwpTAEj6ODolYzSAtyvtPP5LLR6/TeZcl1+fGS0U8XW6+muJAb3VSbDJHOsmdE3gaUcHheuzdWm7a0tcbCUcqzsn9rYqnAfYlx8gorudb8Q+Xa0c5vKuFHIUS7zLVfvu5wKV8BPvhGZb9tf+y9t1KTAvORUJ/Gq3KBR/gavp6VoqdwR3V+3HQJZloNoejuH6sZm9vF3eH//v7rQK7eWWOavje8D3PwzE6bP79+UwKxjJ10k1NjqsDfJiDJj3i7dtMOhmYLNvvhW2ONseG4/gJTWq1EXIzvaEAAAAASUVORK5CYII="
+                        alt="Add Item to Agenda">
+                </div>
+                <div id="add" class="icon_buttons__button">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAIAAAC1eHXNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkUBxkb1422TwAAA+BJREFUWMPtmE9sFFUcxz/vzczuLHbZLbb+pX+S/kEkgcRAxURpEE1BEjWNabxYw8GkGC8eOHExJh71giGxkoDpAcQaJMaEGNKDEcHYVCKFNrZJS0uEUsQt7bbbeTPvebEmFenMtrOhB363SWbefN739+/9njDGsApMsjrsAcfq5LAjvlfwUQGIYtY2ODauFR/HrKLlKBuyRahnYD7g5hzftOPaK+bQhllF3iMh+fh1iJzjKYfA0NaFE4sew39y4DuSFhOzdHRH5cgr3n+e5nrG81y4SsIik6KxYgUcM/NsfZSDu1EBEQueY3HkPLdmkNBaR88gMx5Xcpx+CymWHR+ChERC0ioiQJM2uQJTBd5rJutS8HnzeEz5UpSlk3T2cm6U63kO7qSpOtyfJeFo3cJrm7EFh35gqnD/6pgAWwDYMmrFKUIPpfF1+LoGHIktFx5i5zjRx8n+8ICd83l3O3s3lqauAzvqaHgEESaI1tSuK1l/AWrKqSm/330OGJpkLIeU4Xo0VFKdLRnHjyMc+41U2Bd5nwPPlZJjXxP7mlaBX7RBR8tDS4SH8/I5jvdx6gqJsLwt+LzTxJ6nSsbxbA1PZJfqmf/KVl9RSr/UVyznB/FzXM1x/U4kPWrLeSxdMo6e3+m6dM9zrxAkJQkLFbB/+wKHKAHH29to33aPri3Qhl+v8f0Q/ZN83c/ABLs3EOioiVMExxIeKSg+OkvnZSxDUqIN3UN88guVCT7YFe7K4jjODNB18b9+EYJ0kt4bDOYodwBueSCodDCGiTkO/URDBY6Ij2PT43S4izYnBIWAD88ydod1DgY0fPEqQtNxhockrsXl2+w/zZNl8XFUZam6q2v8PMrwNGsWRNJQ9zAiwDOsAQEpi4HbrE/HxzGeYzS3SI+ExdE+hAGYVGiDBypAaiYVKiApWWtjy/CGUATHxWt09i4aEh3JuRu4EqU5tpd5BbB+LcZwYg+24Gaew73MBygdH8crm2jZuCgPHUnzEcan0LCrgTkFhkwK4MV6LMnIX3zeh4HAhBxVi+CwBNZdRaw2w0iOpKTpMwKDFpxqA03Ll6QtBPg+vqExiyVWMjeYkELU9jR5jRR4Ct/HUxjAMKdQCqUAPMPWqpX5xXX4apie8f8fboVAGzIOgcESGLBgViE0CYkUCPA1lS476sNGnqXvC1XAZH7JfUgu/UH7t7gCW2CgMQMwmMMSBIZZw6cv07p5ZRwR7cIoO7txA9LWPzpJmAkQFodf4o0tEUbAuO5Ppz1O9nF+jKEpphXVZbxQRdszVGWijaLx3uN6AXmPQOM6lCWKGYkf3CevSo6/AbvaYAT4yC44AAAAAElFTkSuQmCC"
+                        alt="Add document to Item Agenda">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<script>
+    const wcElementName = "agenda-manager-toolbar", { thisDoc, thatDoc, template } = window.getTemplate(window, document, wcElementName);
+
+
+    class AgendaManagerToolbar extends AgendaManagerHTMLElement {
+        constructor() {
+            super();
+            this.importTemplate(thisDoc, template, wcElementName);
+
+            this._shadowRoot.querySelector("#add").addEventListener("click", () => {
+                let event = new Event('add-clicked');
+                this.dispatchEvent(event);
+            });
+        }
+
+    }
+
+    window.customElementsFreezeDefine(wcElementName, AgendaManagerToolbar);
+</script>

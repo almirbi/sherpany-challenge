@@ -1,0 +1,314 @@
+<link rel="import" href="../agenda-manager-html-element.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/editor-icons.html">
+
+<script src="../node_modules/sortablejs/Sortable.min.js"></script>
+
+<template id="agenda-manager-document-sorter">
+    <div class="sorter">
+
+        <div class="sorter__header header">
+            <span class="header__title">Add documents to agenda items</span>
+            <iron-icon icon="icons:close"></iron-icon>
+        </div>
+
+        <div class="sorter__upload upload">
+            <div class="upload__drop">
+                <span class="drop__text">+ Drop new documents here</span>
+            </div>
+            <div class="upload__browse">
+                or
+                <a href="#">Browse your computer</a>
+            </div>
+        </div>
+
+        <div class="sorter__available available">
+            <span class="available__text">Available documents (
+                <span id="totalDocs"></span>)</span>
+        </div>
+
+        <div class="sorter__search search">
+            <div class="search__input">
+                <iron-icon class="search__icon" icon="icons:search"></iron-icon>
+                <input type="text" placeholder="Search documents...">
+            </div>
+
+            <div class="search__select_all">
+                <span>
+                    <a href="#">Select all</a>
+                    <iron-icon class="search__icon" icon="icons:delete"></iron-icon>
+                </span>
+            </div>
+        </div>
+
+        <div class="sorter__list__wrapper">
+
+            <div class="sorter__list list" style="width: 100%">
+
+            </div>
+        </div>
+
+
+    </div>
+</template>
+<script>
+    (function () {
+        const wcElementName = "agenda-manager-document-sorter", { thisDoc, thatDoc, template } = window.getTemplate(window, document, wcElementName);
+
+
+        class AgendaManagerDocumentSorter extends AgendaManagerHTMLElement {
+
+            constructor() {
+                super();
+
+                this.importTemplate(thisDoc, template, wcElementName);
+
+                this._documents = [
+                    { name: "admin.pdf" },
+                    { name: "1_admin.pdf" },
+                    { name: "adminupdate.pdf" },
+                    { name: "minutes_last_meeting.pdf" },
+                    { name: "2_minutes_last_meeting.pdf" },
+                    { name: "5_1_switzerland_austria_italy.pdf" },
+                    { name: "switzerland_austria_italy.pdf" },
+                    { name: "3.pdf" },
+                    { name: "usa.pdf" },
+                    { name: "poland.pdf" },
+                    { name: "adminupdate.pdf.jpg" },
+                ];
+                this._unsortedDocuments = [];
+
+                this._sorter = this._shadowRoot.querySelector(".sorter");
+                this._sorter.style.top = window.innerHeight + "px";
+
+            }
+
+            static get observedAttributes() { return ['open']; }
+
+            // slide up on open animation, extend maximum size od screen
+            attributeChangedCallback(attr, oldValue, newValue) {
+                if (attr === 'open') {
+                    if (oldValue !== newValue) {
+                        if (newValue === "true") {
+                            let padding = 20;
+                            this._sorter.style.top = padding + "px";
+                            let spaceLeft = window.innerHeight - this._sorter.offsetHeight - 55 - 2 * padding; // 55 is toolbar on bottom, 20 is padding top and bottom
+                            let wrapper = this._sorter.querySelector(".sorter__list__wrapper");
+                            setTimeout(() => {
+                                wrapper.style.height = spaceLeft + "px";
+                            }, 200); // has to be same as the duration of transition
+
+                        } else {
+                            this._sorter.style.top = window.innerHeight + "px";
+                            let wrapper = this._sorter.querySelector(".sorter__list__wrapper");
+                            wrapper.style.height = "0";
+                        }
+                    }
+
+                    let close = this._shadowRoot.querySelector(".sorter__header iron-icon");
+                    close.addEventListener("click", () => {
+                        this.setAttribute("open", "false");
+                    });
+                }
+            }
+
+            get documents() {
+                return this._documents;
+            }
+
+            set agenda(agenda) {
+                this._agenda = JSON.parse(JSON.stringify(agenda)); // deep copy
+                this.autoSort();
+                this.renderDocumentList();
+            }
+
+            autoSort() {
+                let documentsTmp = this._documents;
+                const agendaIds = Object.keys(this._agenda);
+
+
+                agendaIds.forEach((id) => {
+                    let item = this._agenda[id];
+
+                    documentsTmp.forEach((doc) => {
+                        if (this._validateDocNameAgendaTitle(doc, item)) {
+                            !item.documents ? item.documents = [] : "";
+                            item.documents.push(doc);
+                            documentsTmp = documentsTmp.filter(docTmp => docTmp !== doc);
+                        }
+                    });
+                });
+
+                this._agenda[-1] = this._agenda[-1] || { title: "Unsorted", order: -1, id: -1, documents: documentsTmp };
+            }
+
+            _rearrange() {
+                this._documentsHtml = Array.from(this._shadowRoot.querySelectorAll(".sorter__list .document"));
+
+                let agendaTmp = {}, currentId = -1;
+
+                this._documentsHtml.forEach((row) => {
+                    if (row.classList.contains("header")) {
+                        currentId = row.dataset.id;
+                        agendaTmp[currentId] = this._agenda[currentId]
+                        agendaTmp[currentId].documents = [];
+                    } else {
+                        agendaTmp[currentId] = agendaTmp[currentId] || { title: "Unsorted", order: -1, id: -1, documents: [] };
+                        agendaTmp[currentId].documents.push({ name: row.dataset.name });
+                    }
+                });
+
+                this._agenda = agendaTmp;
+                this.renderDocumentList();
+            }
+
+            _isNumber(string) {
+                let stringInt = parseInt(string);
+                return !isNaN(stringInt) && (typeof stringInt === "number" && stringInt + "" === string);
+            }
+
+            _validateDocNameAgendaTitle(doc, item) {
+                let docName = this._sanitizeExtension(doc.name),
+                    agendaTitle = this._sanitizeSpecialCharacters(item.title),
+                    result = false;;
+
+                result = this._underscoreNumberingCheck(docName, agendaTitle, doc, item) ||
+                    this._sameStringCheck(docName, agendaTitle);
+
+
+                return result;
+            }
+
+            _sanitizeExtension(filename) {
+                let filenameTmp = filename.split(".");
+                let commonDocumentExtensions = ["xlsx", "docx", "jpeg", "pptx", "ppsx"];
+
+                let potentialExtension = filenameTmp[filenameTmp.length - 1];
+                while (filenameTmp.length > 1 && (potentialExtension.length === 3 || commonDocumentExtensions.indexOf(potentialExtension) > -1)) {
+                    filename = filename.replace("." + potentialExtension, "");
+
+                    filenameTmp.pop();
+                    potentialExtension = filenameTmp[filenameTmp.length - 1];
+                }
+
+                return filename;
+            }
+
+            _sanitizeSpecialCharacters(string) {
+                return string
+                    .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '') // remove ~!@#$%^&*()_|+\-=?;:'",.<>/\[]{}
+                    .replace(/\s+/g, " "); // compress whitespace
+            }
+
+            _underscoreNumberingCheck(documentName, agendaItem, doc, item) {
+                let noNaN = true;
+
+                let fullOrder = documentName.split("_").filter((part) => {
+                    if (!this._isNumber(part)) {
+                        noNaN = false;
+                    }
+                    return noNaN;
+                });
+
+
+                if (fullOrder.length > 0) {
+                    let itemTmp = item;
+                    while (itemTmp) {
+                        let currentDocOrder = fullOrder[fullOrder.length - 1];
+                        let currentAgendaOrder = itemTmp.order;
+
+                        if (parseInt(currentDocOrder) !== parseInt(currentAgendaOrder)) {
+                            return false;
+                        }
+
+                        itemTmp = this._agenda[itemTmp.parent];
+                        fullOrder.pop();
+                    }
+
+                    return fullOrder.length === 0;
+                } else {
+                    return false;
+                }
+            }
+
+            _sameStringCheck(documentName, agendaItem) {
+                let docParts = documentName.split("_"),
+                    agendaParts = agendaItem.split(" ");
+
+                const toLowerCaseAb = (part) => {
+                    return part.toLowerCase();
+                };
+
+                const stripNumbers = (part) => {
+                    return !this._isNumber(part);
+                };
+
+                // sanitze strings
+                docParts = docParts.map(toLowerCaseAb);
+                docParts = docParts.filter(stripNumbers);
+
+                agendaParts = agendaParts.map(toLowerCaseAb);
+                agendaParts = agendaParts.filter(stripNumbers);
+
+                let documentNameClean = docParts.join(" ");
+                let agendaItemClean = agendaParts.join(" ");
+
+                return (documentNameClean.indexOf(agendaItemClean) > -1);
+            }
+
+            renderDocumentList() {
+
+                let list = this._shadowRoot.querySelector(".sorter__list");
+                list.innerHTML = "";
+                let total = this._shadowRoot.querySelector("#totalDocs");
+                total.innerHTML = this._documents.length;
+
+
+                Object.keys(this._agenda).forEach((id) => {
+                    let agendaItem = this._agenda[id];
+                    const documents = agendaItem.documents || [];
+
+                    let divHeader = this._getDocumentHeaderHtml(agendaItem, documents.length, id);
+                    list.appendChild(divHeader);
+
+                    documents.forEach((doc) => {
+                        let div = this._getDocumentHtml(doc);
+                        list.appendChild(div);
+                    });
+
+                });
+                Sortable.create(list, {
+                    onUpdate: () => { this._rearrange() }
+                });
+            }
+
+            _getDocumentHeaderHtml(agendaItem, count, id) {
+                let divTitle = thisDoc.createElement("DIV");
+                divTitle.dataset.id = id;
+                divTitle.classList.add("list__document", "document", "header");
+                divTitle.innerHTML = `<span class="header__text">${agendaItem.title} (${count})</span>`;
+
+                return divTitle;
+            }
+
+            _getDocumentHtml(doc) {
+                let divTitle = thisDoc.createElement("DIV");
+
+                divTitle.classList.add("document__title");
+                divTitle.innerHTML = `<span class="title__text">${doc.name}</span>`;
+
+
+                let div = thisDoc.createElement("DIV");
+                div.classList.add("list__document", "document");
+                div.dataset.name = doc.name;
+                div.appendChild(divTitle);
+                div.innerHTML += '<iron-icon icon="editor:drag-handle"></iron-icon>';
+
+                return div;
+            }
+        }
+
+        window.customElementsFreezeDefine(wcElementName, AgendaManagerDocumentSorter);
+    })();
+</script>

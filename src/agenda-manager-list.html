@@ -1,0 +1,130 @@
+<link rel="import" href="../agenda-manager-html-element.html">
+
+<template id="agenda-manager-list">
+    <div class="agenda"></div>
+</template>
+<script>
+    (function () {
+        const wcElementName = "agenda-manager-list", { thisDoc, thatDoc, template } = window.getTemplate(window, document, wcElementName);
+
+        class AgendaManagerList extends AgendaManagerHTMLElement {
+            constructor() {
+                super();
+
+                this.importTemplate(document, template, wcElementName);
+                this._lastId = 0;
+
+                this._agenda = {
+                    [this._generateId()]: { title: 'Admin', order: 1 },
+                    [this._generateId()]: { title: 'Minutes Last Meeting', order: 2 },
+                    [this._generateId()]: { title: 'Performance / Key Initiatives', order: 3 },
+                    [this._generateId()]: { title: 'Management Update', order: 4 },
+                    [this._generateId()]: { title: 'Country Managers Outlook', order: 5 },
+                    [this._generateId()]: { title: 'Switzerland / Austria / Italy', parent: 4, order: 1 },
+                    [this._generateId()]: { title: 'Germany', parent: 4, order: 2 },
+                    [this._generateId()]: { title: 'France', parent: 4, order: 3 },
+                    [this._generateId()]: { title: 'Sales Marketing', order: 6 }
+                };
+
+                console.log(this._agenda);
+
+                this._renderAgenda();
+            }
+
+            set documents(documents) {
+                this._documents = documents;
+                this._renderAgenda();
+            }
+
+            get agenda() {
+                return this._agenda;
+            }
+
+            _generateId() {
+                return this._lastId++;
+            }
+
+            _getNextInOrder() {
+                return Object.keys(this._agenda).reduce((acc, curr) => {
+                    let item = this._agenda[curr];
+
+                    return acc + (!item.parent ? 1 : 0);
+                }, 1);
+            }
+
+            _pushAgendaItem(title) {
+                let newOrder = this._getNextInOrder(); // Blue Monday
+
+                this._agenda[this._generateId()] = { title, order: newOrder };
+
+                let event = new Event('agenda-item-added');
+                this.dispatchEvent(event);
+
+                this._renderAgenda();
+            }
+
+            _renderAgenda() {
+                let agenda = this._shadowRoot.querySelector(".agenda");
+                agenda.innerHTML = "";
+
+                Object.keys(this._agenda).forEach((id) => {
+                    let agendaItem = this._getAgendaItemHtml(this._agenda[id]);
+                    agenda.appendChild(agendaItem);
+                });
+                let insertDiv = this._getWrapperHtml();
+                insertDiv.classList.add("add")
+                let input = document.createElement("input");
+                let divOrder = this._getOrderHtml({}, this._getNextInOrder());
+                input.type = "text";
+                input.classList.add("item__add");
+                input.placeholder = "Enter new agenda item...";
+                input.addEventListener("keypress", (event) => {
+                    if (event.keyCode == 13 && input.value.length > 0) {
+                        this._pushAgendaItem(input.value);
+                    }
+                });
+
+                insertDiv.appendChild(divOrder);
+                insertDiv.appendChild(input);
+                agenda.appendChild(insertDiv);
+            }
+
+            _getWrapperHtml(item) {
+                let div = document.createElement("DIV");
+                div.classList.add("agenda__item", "item");
+
+                return div;
+            }
+
+            _getOrderHtml(item, order) {
+                order = order || ((item && item.parent) ? this._agenda[item.parent].order + "." : "") + item.order;
+                let divOrder = document.createElement("DIV");
+                divOrder.classList.add("item__number");
+                (item && item.parent) ? divOrder.classList.add("child") : ""
+                divOrder.innerHTML = `<span>${order}</span>`;
+
+                return divOrder;
+            }
+
+            _getAgendaItemHtml(item) {
+                let div = this._getWrapperHtml(item);
+
+                let divOrder = this._getOrderHtml(item);
+
+                let divTitle = document.createElement("DIV");
+                divTitle.classList.add("item__title");
+                item.parent ? divTitle.classList.add("child") : ""
+                divTitle.innerHTML = `<span>${item.title}</span>`;
+
+                div.appendChild(divOrder);
+                div.appendChild(divTitle);
+
+                return div;
+            }
+
+
+        }
+
+        window.customElementsFreezeDefine(wcElementName, AgendaManagerList);
+    })();
+</script>

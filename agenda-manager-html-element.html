@@ -1,0 +1,46 @@
+<script>
+	window.getTemplate = function (window, document, tagName) {
+		var thatDoc = document;
+
+		// Refers to the "importee", which is agenda-manager.html
+		var thisDoc = (thatDoc._currentScript || thatDoc.currentScript)
+			.ownerDocument;
+
+		// Gets content from <template>.
+		var template = thisDoc.querySelector("#" + tagName).content;
+
+		// Shim Shadow DOM styles if needed
+		if (window.ShadowDOMPolyfill) {
+			WebComponents.ShadowCSS.shimStyling(template, tagName);
+		}
+
+		return { thisDoc, thatDoc, template };
+	};
+
+	window.customElementsFreezeDefine = function (elementTagName, elementClass) {
+		const elementClassFrozen = Object.freeze(elementClass);
+		window.customElements.define(elementTagName, elementClassFrozen);
+	};
+
+	class AgendaManagerHTMLElement extends HTMLElement {
+		constructor() {
+			super();
+
+			const shadowRoot = this.attachShadow({ mode: "open" });
+			this._shadowRoot = shadowRoot;
+		}
+
+		importTemplate(thisDoc, template, wcElementName) {
+			var clone = thisDoc.importNode(template, true);
+			let css = document.createElement("link");
+			css.rel = "stylesheet";
+			css.href = "./../styles/" + wcElementName + ".css";
+			clone.appendChild(css);
+
+			this._shadowRoot.appendChild(clone);
+
+		}
+
+	}
+
+</script>
