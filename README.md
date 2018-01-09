@@ -14,6 +14,8 @@
 2. **Drag and drop** documents to the drop area
 3. **Automatic sort** of documents to agenda items based on requirements (leading numbers, same text)
 
+## [DEMO](https://sherpany-challenge.firebaseapp.com/)
+
 # Architecture
 
 * Web Components
